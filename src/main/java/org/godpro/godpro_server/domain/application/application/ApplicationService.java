@@ -28,7 +28,7 @@ public class ApplicationService {
     public ApiResponse<String> applyToProject(String userId, Long projectId, ApplyRequestDto applyRequestDto) {
 
         ApiResponse<User> response = userService.retrieveUser(userId);
-        if(response.equals(ErrorCode.INVALID_USER_ID)) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);
+        if(response.getStatus().equals(HttpStatus.NOT_FOUND)) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);
         User user = response.getData();
 
         Optional<Project> optionalProject = projectRepository.findById(projectId);

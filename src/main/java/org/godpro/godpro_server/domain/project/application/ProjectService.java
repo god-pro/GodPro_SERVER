@@ -9,6 +9,7 @@ import org.godpro.godpro_server.domain.user.dao.UserRepository;
 import org.godpro.godpro_server.domain.user.domain.User;
 import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.godpro.godpro_server.global.error.ErrorCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,9 +122,7 @@ public class ProjectService {
 
     public ApiResponse<String> createProject(String userId, CreateProjectServiceRequestDto projectDto) {
         ApiResponse<User> response = userService.retrieveUser(userId);
-        if(response.equals(ErrorCode.INVALID_USER_ID)) {
-            return ApiResponse.withError(ErrorCode.INVALID_USER_ID);
-        }
+        if(response.getStatus().equals(HttpStatus.NOT_FOUND)) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);
         User user = response.getData();
         Project project = projectDto.toEntity(user);
         Project saved = projectRepository.save(project);
