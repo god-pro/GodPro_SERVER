@@ -45,11 +45,11 @@ public class Project {
     @Column
     private boolean isRecruited; // 모집 완료 여부
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project",  cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Application> applications;
 }

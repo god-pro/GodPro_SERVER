@@ -18,10 +18,11 @@ public enum ErrorCode {
     ERROR_S3_UPDATE_OBJECT(HttpStatus.INTERNAL_SERVER_ERROR, "서버 문제로 S3 이미지 업로드에 실패하였습니다."),
 
     // User
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 유저입니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
 
     // Project
-    PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 프로젝트입니다.");
+    PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트입니다."),
+    NOT_PROJECT_CREATOR_ERROR(HttpStatus.FORBIDDEN, "프로젝트 생성한 사람이 아닙니다.");
 
     private final HttpStatus status;
     private final String message;
