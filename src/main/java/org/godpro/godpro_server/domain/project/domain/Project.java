@@ -3,6 +3,7 @@ package org.godpro.godpro_server.domain.project.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.godpro.godpro_server.domain.application.domain.Application;
@@ -16,34 +17,39 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "projects")
 public class Project {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String name; // 프로젝트 이름
+    private String name;
 
     @Column
-    private String shortDescription; // 프로젝트 한 줄 소개
+    private String shortDescription; //한줄 소개
 
     @Column
-    private String detailDescription; // 자세한 프로젝트 소개
+    private String detailDescription; //자세한 설명
 
     @Column
-    private int back; // 모집할 백엔드 인원
+    private int back; //백엔드
 
     @Column
-    private int front; // 모집할 프론트엔드 인원
+    private int front; //프론트
 
     @Column
-    private int pm; // 모집할 기획자 인원
+    private int pm; //pm
 
     @Column
-    private int design; // 모집할 디자이너 인원
+    private int design; //디자인
 
     @Column
-    private boolean isRecruited; // 모집 완료 여부
+    private int how_many; //프로젝트 인원수
+
+    @Column
+    private int how_long; //예상 개발 기간
+
+    @Column
+    private boolean isRecruited;
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
@@ -52,4 +58,49 @@ public class Project {
     @OneToMany(mappedBy = "project")
     @JsonManagedReference
     private List<Application> applications;
+
+    @Builder
+    public Project(String name,
+                   String shortDescription,
+                   String detailDescription,
+                   int back,
+                   int front,
+                   int pm,
+                   int design,
+                   int how_many,
+                   int how_long,
+                   boolean isRecruited,
+                   User creator) {
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.detailDescription = detailDescription;
+        this.back = back;
+        this.front = front;
+        this.pm = pm;
+        this.design = design;
+        this.how_many = how_many;
+        this.how_long = how_long;
+        this.isRecruited = isRecruited;
+        this.creator = creator;
+    }
+
+    public void updateProject(String name,
+                              String shortDescription,
+                              String detailDescription,
+                              int back,
+                              int front,
+                              int pm,
+                              int design,
+                              int how_many,
+                              int how_long) {
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.detailDescription = detailDescription;
+        this.back = back;
+        this.front = front;
+        this.pm = pm;
+        this.design = design;
+        this.how_many = how_many;
+        this.how_long = how_long;
+    }
 }
