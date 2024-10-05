@@ -26,6 +26,9 @@ public class Application {
     private String contact; // 면접자와 컨택할 링크, 전화번호 등등
 
     @Column(nullable = false)
+    private boolean isAccepted = false; // 합격 여부 (기본값: false)
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PartType part; // 지원할 파트
 
@@ -45,6 +48,10 @@ public class Application {
         this.part = PartType.valueOf(part);
         this.user = user;
         this.project = project;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
 }
 
