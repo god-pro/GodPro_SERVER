@@ -26,7 +26,7 @@ public class ProjectService {
     private final UserService userService;
 
     public ApiResponse<String> deleteProject(String userId, Long projectId) {
-        if (userService.isExisted(userId)) {
+        if (!userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
@@ -48,7 +48,7 @@ public class ProjectService {
     @Transactional
     public ApiResponse<Project> updateProject(String userId, Long projectId, CreateProjectServiceRequestDto projectDto) {
         // 사용자 ID로 사용자 찾기
-        if (userService.isExisted(userId)) {
+        if (!userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
@@ -88,7 +88,7 @@ public class ProjectService {
     }
 
     public ApiResponse<String> closeRecruitment(String userId, Long projectId) {
-        if (userService.isExisted(userId)) {
+        if (!userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
