@@ -27,8 +27,8 @@ public class ProjectController {
     // 모집이 완료되지 않은 프로젝트 목록 조회
     @Operation(summary = "모집이 완료되지 않은 프로젝트 목록 조회 API")
     @GetMapping("/unrecruited")
-    public ApiResponse<List<ProjectRetrieve>> retrieveUnrecruitedProjects() {
-        return projectQueryService.retrieveUnrecruitedProjects();
+    public ApiResponse<List<ProjectRetrieve>> retrieveUnrecruitedProjects(@RequestHeader("Authorization") String userId) {
+        return projectQueryService.retrieveUnrecruitedProjects(userId);
     }
 
     @Operation(summary = "프로젝트 삭제 API")
@@ -60,7 +60,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 수정 API")
     @PutMapping("/{projectId}")
-    public ApiResponse<Project> updateProject(@RequestHeader("Authorization") String userId,
+    public ApiResponse<String> updateProject(@RequestHeader("Authorization") String userId,
                                               @PathVariable("projectId") Long projectId,
                                               @RequestBody CreateProjectServiceRequestDto projectDto) {
         return projectService.updateProject(userId, projectId, projectDto);

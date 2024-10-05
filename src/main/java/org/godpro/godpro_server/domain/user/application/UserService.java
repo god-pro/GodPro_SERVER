@@ -59,6 +59,7 @@ public class UserService {
         return ApiResponse.ok("사용자 정보를 성공적으로 등록했습니다.", savedUser);
     }
 
+    @Transactional(readOnly = true)
     public ApiResponse<User> retrieveUser(String kakaoId) {
         Optional<User> optionalUser = userRepository.findByKakaoId(kakaoId);
         if(optionalUser.isEmpty()) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);

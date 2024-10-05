@@ -12,6 +12,7 @@ import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.godpro.godpro_server.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
 
+    @Transactional
     public ApiResponse<String> applyToProject(String userId, Long projectId, ApplyRequestDto applyRequestDto) {
 
         ApiResponse<User> response = userService.retrieveUser(userId);
@@ -41,6 +43,7 @@ public class ApplicationService {
         return ApiResponse.ok("프로젝트에 성공적으로 지원하였습니다.");
     }
 
+    @Transactional
     public ApiResponse<String> acceptApplication(String userId, Long projectId, Long applicationId) {
         ApiResponse<User> response = userService.retrieveUser(userId);
         if(response.getStatus().equals(HttpStatus.NOT_FOUND)) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);

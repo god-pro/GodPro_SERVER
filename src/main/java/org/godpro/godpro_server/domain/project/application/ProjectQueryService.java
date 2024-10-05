@@ -11,25 +11,30 @@ import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.godpro.godpro_server.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProjectQueryService {
     private final ProjectRepository projectRepository;
     private final UserService userService;
 
     // 모집이 완료되지 않은 프로젝트들의 이름, 소개, 파트별 인원수 반환
-    public ApiResponse<List<ProjectRetrieve>> retrieveUnrecruitedProjects() {
+    public ApiResponse<List<ProjectRetrieve>> retrieveUnrecruitedProjects(String userId) {
+        if (!userService.isExisted(userId)) {
+            return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
+        }
         List<ProjectRetrieve> project = projectRepository.findByIsRecruitedFalse();
         return ApiResponse.ok("모집이 완료되지 않은 프로젝트들의 이름, 소개, 파트별 인원수를 정상적으로 조회했습니다.", project);
     }
 
-    // 프로젝트 단권 조회
+    // 프로젝트 단건 조회
     public ApiResponse<ReceiveProject> receiveProjectById(String userId, Long projectId) {
-        if (userService.isExisted(userId)) {
+        if (!userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
