@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.godpro.godpro_server.domain.application.dao.ApplicationDetail;
 import org.godpro.godpro_server.domain.application.dao.ApplicationRepository;
 import org.godpro.godpro_server.domain.application.dao.ProjectApplicantRetrieve;
-import org.godpro.godpro_server.domain.application.domain.Application;
 import org.godpro.godpro_server.domain.project.dao.ProjectRepository;
 import org.godpro.godpro_server.domain.project.domain.Project;
 import org.godpro.godpro_server.domain.user.application.UserService;
@@ -13,11 +12,13 @@ import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.godpro.godpro_server.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ApplicationQueryService {
 
@@ -49,7 +50,7 @@ public class ApplicationQueryService {
     }
 
     public ApiResponse<List<ProjectApplicantRetrieve>> findProjectApplicant(String userId, Long projectId) {
-        if (userService.isExisted(userId)) {
+        if (!userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
