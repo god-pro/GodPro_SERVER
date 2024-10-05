@@ -26,7 +26,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private UUID kakaoId;
+    private String kakaoId;
 
     @Column
     private String profileImageUrl;
