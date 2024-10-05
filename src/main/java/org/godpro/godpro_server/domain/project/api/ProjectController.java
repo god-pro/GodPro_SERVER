@@ -59,7 +59,7 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 수정 API")
     @PutMapping("/{projectId}")
-    public ApiResponse<Project> updateProject(@RequestHeader Long userId,
+    public ApiResponse<Project> updateProject(@RequestHeader("Authorization") String userId,
                                               @PathVariable("projectId") Long projectId,
                                               @RequestBody CreateProjectServiceRequestDto projectDto) {
         return projectService.updateProject(userId, projectId, projectDto);

@@ -45,10 +45,9 @@ public class ProjectService {
     }
 
     @Transactional
-    public ApiResponse<Project> updateProject(Long userId, Long projectId, CreateProjectServiceRequestDto projectDto) {
+    public ApiResponse<Project> updateProject(String userId, Long projectId, CreateProjectServiceRequestDto projectDto) {
         // 사용자 ID로 사용자 찾기
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
+        if (userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
