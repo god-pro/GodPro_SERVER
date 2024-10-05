@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.godpro.godpro_server.domain.project.domain.Project;
 import org.godpro.godpro_server.domain.user.domain.User;
 
-import java.util.Optional;
-
 @Entity
 @Getter
 @AllArgsConstructor
