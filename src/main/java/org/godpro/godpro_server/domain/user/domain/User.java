@@ -43,11 +43,11 @@ public class User {
     @Column
     private String introduction;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Project> projects;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Application> applications;
 }
