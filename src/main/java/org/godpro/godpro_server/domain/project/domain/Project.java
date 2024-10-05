@@ -92,8 +92,8 @@ public class Project {
                               int back,
                               int front,
                               int pm,
-                              int design
-    ) {
+                              int design,
+                              int eta) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.detailDescription = detailDescription;

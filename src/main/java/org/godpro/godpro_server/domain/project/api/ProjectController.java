@@ -48,4 +48,12 @@ public class ProjectController {
                                               @RequestBody CreateProjectRequestDto dto) {
         return projectService.createProject(userId, dto.toServiceRequest());
     }
+
+    @Operation(summary = "프로젝트 수정 API")
+    @PutMapping("/{projectId}")
+    public ApiResponse<Project> updateProject(@RequestHeader Long userId,
+                                              @PathVariable("projectId") Long projectId,
+                                              @RequestBody CreateProjectServiceRequestDto projectDto) {
+        return projectService.updateProject(userId, projectId, projectDto);
+    }
 }
