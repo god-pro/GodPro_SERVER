@@ -12,12 +12,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    // 모집이 완료되지 않은 프로젝트 목록을 모집 마감 시간이 가장 짧게 남은 순으로 조회
-    @Query("SELECT p.name AS name, p.shortDescription AS shortDescription, p.front AS front, " +
-            "p.back AS back, p.pm AS pm, p.design AS design " +
+    // 모집이 완료되지 않은 프로젝트들의 모집 인원 총합 및 합격된 지원자 수 조회
+    @Query("SELECT p.name AS name, p.shortDescription AS shortDescription, " +
+            "p.front + p.back + p.pm + p.design AS totalRecruitment, " +  // 파트별 인원의 총합 계산
+            "(SELECT COUNT(a) FROM Application a WHERE a.project.id = p.id AND a.isAccepted = true) AS acceptedApplicantCount " +
             "FROM Project p " +
-            "WHERE p.isRecruited = false " +  // 모집이 완료되지 않은 프로젝트만 조회
-            "ORDER BY p.recruitmentEndDate ASC")  // 모집 마감 시간이 가장 짧게 남은 순으로 정렬
+            "WHERE p.isRecruited = false " +
+            "ORDER BY p.recruitmentEndDate ASC")
     List<ProjectRetrieve> findByIsRecruitedFalse();
 
     // 모집 마감 시간이 지났으나 모집 완료 처리하지 않은 프로젝트 목록 조회
