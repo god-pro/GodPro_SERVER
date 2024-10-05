@@ -3,6 +3,7 @@ package org.godpro.godpro_server.domain.user.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.godpro.godpro_server.domain.application.domain.Application;
@@ -50,4 +51,15 @@ public class User {
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Application> applications;
+
+    @Builder
+    public User(String name, String kakaoId, String profileImageUrl, String profileFileName, String githubUrl, String portfolioUrl, String introduction) {
+        this.name = name;
+        this.kakaoId = kakaoId;
+        this.profileImageUrl = profileImageUrl;
+        this.profileFileName = profileFileName;
+        this.githubUrl = githubUrl;
+        this.portfolioUrl = portfolioUrl;
+        this.introduction = introduction;
+    }
 }
