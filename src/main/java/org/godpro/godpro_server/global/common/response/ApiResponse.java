@@ -3,7 +3,7 @@ package org.godpro.godpro_server.global.common.response;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.alongtheblue.alongtheblue_server.global.error.ErrorCode;
+import org.godpro.godpro_server.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 @Getter
