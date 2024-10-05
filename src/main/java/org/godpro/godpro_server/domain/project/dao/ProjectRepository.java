@@ -23,4 +23,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     //프로젝트 단건 조회
     @Query("SELECT p.creator.id AS creator, p.name AS name, p.shortDescription AS shortDescription, p.detailDescription AS detailDescription, p.eta AS eta, p.recruitmentEndDate AS recruitmentEndDate, p.back AS back, p.front AS front, p.pm AS pm, p.design AS design, p.isRecruited AS isRecruited FROM Project p WHERE p.id = :id")
     Optional<ReceiveProject> findProjectById(@Param("id") Long id);
+
+    // 현재 사용자가 생성한 프로젝트 목록 조회 (ID, 이름만 반환)
+    @Query("SELECT p.id AS id, p.name AS name " +
+            "FROM Project p " +
+            "WHERE p.creator.id = :userId")
+    List<UserCreatedProjectRetrieve> findUserProjects(@Param("userId") Long userId);
 }
