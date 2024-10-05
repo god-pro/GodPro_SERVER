@@ -50,10 +50,18 @@ public class ProjectController {
         return projectService.createProject(userId, dto.toServiceRequest());
     }
 
+
 //    @Operation(summary = "특정 프로젝트 파트별 지원자 조회")
 //    @GetMapping("/applicant/part")
 //    public ApiResponse<User> retrieveApplicantByPart(@PathVariable("projectId") Long projectId) {
 //        return projectService.retrieveApplicantByPart(projectId);
 //    }
 
+    @Operation(summary = "프로젝트 수정 API")
+    @PutMapping("/{projectId}")
+    public ApiResponse<Project> updateProject(@RequestHeader Long userId,
+                                              @PathVariable("projectId") Long projectId,
+                                              @RequestBody CreateProjectServiceRequestDto projectDto) {
+        return projectService.updateProject(userId, projectId, projectDto);
+    }
 }

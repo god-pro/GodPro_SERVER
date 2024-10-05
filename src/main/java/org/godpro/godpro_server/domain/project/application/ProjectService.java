@@ -44,6 +44,49 @@ public class ProjectService {
         return ApiResponse.ok("프로젝트가 성공적으로 삭제되었습니다.");
     }
 
+    @Transactional
+    public ApiResponse<Project> updateProject(Long userId, Long projectId, CreateProjectServiceRequestDto projectDto) {
+        // 사용자 ID로 사용자 찾기
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // 프로젝트 ID로 프로젝트 찾기
+        Optional<Project> optionalProject = projectRepository.findById(projectId);
+        if (optionalProject.isEmpty()) {
+            return ApiResponse.withError(ErrorCode.PROJECT_NOT_FOUND);
+        }
+
+        Project project = optionalProject.get();
+
+        // 사용자가 프로젝트 생성자인지 확인
+        if (!project.getCreator().getId().equals(userId)) {
+            return ApiResponse.withError(ErrorCode.NOT_PROJECT_CREATOR_ERROR);
+        }
+
+        // 프로젝트에 지원자가 있는지 확인
+        if (!project.getApplications().isEmpty()) {
+            return ApiResponse.withError(ErrorCode.CANNOT_UPDATE_PROJECT_WITH_APPLICANTS);
+        }
+
+        // 프로젝트 세부 정보 업데이트
+        project.updateProject(
+                projectDto.name(),
+                projectDto.shortDescription(),
+                projectDto.detailDescription(),
+                projectDto.back(),
+                projectDto.front(),
+                projectDto.pm(),
+                projectDto.design(),
+                projectDto.eta()
+        );
+
+        // 업데이트된 프로젝트 저장
+        Project updatedProject = projectRepository.save(project);
+        return ApiResponse.ok(updatedProject);
+    }
+
     public ApiResponse<String> closeRecruitment(String userId, Long projectId) {
         if (userService.isExisted(userId)) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
