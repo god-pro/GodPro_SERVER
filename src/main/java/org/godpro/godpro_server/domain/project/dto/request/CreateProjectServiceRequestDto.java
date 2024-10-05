@@ -3,6 +3,10 @@ package org.godpro.godpro_server.domain.project.dto.request;
 import org.godpro.godpro_server.domain.project.domain.Project;
 import org.godpro.godpro_server.domain.user.domain.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public record CreateProjectServiceRequestDto(
         String name,
         String shortDescription,
@@ -11,11 +15,11 @@ public record CreateProjectServiceRequestDto(
         int front,
         int pm,
         int design,
-        int how_many,
-        int how_long
-
+        int eta,
+        LocalDate recruitmentEndDate
 ) {
     public Project toEntity(User user) {
+        LocalDateTime formattedRecruitmentEndDate = LocalDateTime.of(recruitmentEndDate, LocalTime.of(23, 59, 59));
         return Project.builder()
                 .name(name)
                 .shortDescription(shortDescription)
@@ -24,9 +28,10 @@ public record CreateProjectServiceRequestDto(
                 .front(front)
                 .pm(pm)
                 .design(design)
-                .how_many(how_many)
-                .how_long(how_long)
+                .eta(eta)
                 .isRecruited(false)
+                .recruitmentEndDate(formattedRecruitmentEndDate)
+                .creator(user)
                 .build();
     }
 }
