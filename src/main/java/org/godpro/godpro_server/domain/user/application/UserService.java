@@ -24,12 +24,12 @@ public class UserService {
 //        return ApiResponse.ok("사용자 정보를 성공적으로 등록하였습니다", savedUserInfo);
 //    }
 
-    public ApiResponse<List<User>> retrieveAllUserInfo() {
-        List<User> userInfoList = userRepository.findAll();
-        if(userInfoList.isEmpty()) {
+    public ApiResponse<List<User>> retrieveAllUser() {
+        List<User> userList = userRepository.findAll();
+        if(userList.isEmpty()) {
             return ApiResponse.ok("UserInfo가 존재하지 않습니다.");
         }
-        return ApiResponse.ok("UserInfo 목록을 성공적으로 조회했습니다.", userInfoList);
+        return ApiResponse.ok("UserInfo 목록을 성공적으로 조회했습니다.", userList);
     }
 
     public ApiResponse<User> retrieveOrCreateUser(Map<String, Object> user) {
@@ -59,8 +59,8 @@ public class UserService {
         return ApiResponse.ok("사용자 정보를 성공적으로 등록했습니다.", savedUser);
     }
 
-    public ApiResponse<User> retrieveUserInfo(String uid) {
-        Optional<User> optionalUser = userRepository.findByKakaoId(uid);
+    public ApiResponse<User> retrieveUser(String kakaoId) {
+        Optional<User> optionalUser = userRepository.findByKakaoId(kakaoId);
         if(optionalUser.isEmpty()) return ApiResponse.withError(ErrorCode.INVALID_USER_ID);
         User user = optionalUser.get();
         return ApiResponse.ok("사용자 정보를 성공적으로 조회했습니다.", user);
