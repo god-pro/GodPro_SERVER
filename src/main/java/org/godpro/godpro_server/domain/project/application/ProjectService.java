@@ -44,9 +44,9 @@ public class ProjectService {
         return ApiResponse.ok("프로젝트가 성공적으로 삭제되었습니다.");
     }
 
-    public ApiResponse<Project> closeRecruitment(Long userId, Long projectId) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
+    public ApiResponse<String> closeRecruitment(String userId, Long projectId) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
 
@@ -64,7 +64,7 @@ public class ProjectService {
         project.updateIsRecruited(true);
         Project saveProject = projectRepository.save(project);
 
-        return ApiResponse.ok("프로젝트 모집을 성공적으로 종료하였습니다.", saveProject);
+        return ApiResponse.ok("프로젝트 모집을 성공적으로 종료하였습니다.");
     }
 
     @Scheduled(cron = "0 0 0 * * *")
@@ -78,14 +78,14 @@ public class ProjectService {
         }
     }
 
-    public ApiResponse<Project> createProject(Long userId, CreateProjectServiceRequestDto projectDto) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
+    public ApiResponse<String> createProject(String userId, CreateProjectServiceRequestDto projectDto) {
         }
         User user = optionalUser.get();
         Project project = projectDto.toEntity(user);
         Project saved = projectRepository.save(project);
-        return ApiResponse.ok(saved);
+        return ApiResponse.ok("프로젝트를 성공적으로 생성했습니다.");
     }
 }

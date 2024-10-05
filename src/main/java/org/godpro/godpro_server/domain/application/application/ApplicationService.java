@@ -22,12 +22,12 @@ public class ApplicationService {
     private final ProjectRepository projectRepository;
     private final ApplicationRepository applicationRepository;
 
-    public ApiResponse<Application> applyToProject(Long userId, Long projectId, ApplyRequestDto applyRequestDto) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
         }
         User user = optionalUser.get();
+    public ApiResponse<String> applyToProject(String userId, Long projectId, ApplyRequestDto applyRequestDto) {
 
         Optional<Project> optionalProject = projectRepository.findById(projectId);
         if (optionalProject.isEmpty()) {
@@ -38,6 +38,6 @@ public class ApplicationService {
         Application application = applyRequestDto.toEntity(project, user);
         Application savedApplication = applicationRepository.save(application);
 
-        return ApiResponse.ok("프로젝트에 성공적으로 지원하였습니다.", savedApplication);
+        return ApiResponse.ok("프로젝트에 성공적으로 지원하였습니다.");
     }
 }
