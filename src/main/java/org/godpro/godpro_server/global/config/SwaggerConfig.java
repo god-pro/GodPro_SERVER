@@ -31,7 +31,7 @@ public class SwaggerConfig {
                 .name("session_id");
 
         return GroupedOpenApi.builder()
-                .group("바당따라 Page API v1")
+                .group("같프로 Page API v1")
                 .pathsToMatch(paths)
                 .build();
     }
@@ -40,8 +40,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("바당따라")
-                        .description("바당따라 Api 명세서")
+                        .title("같프로")
+                        .description("같프로 Api 명세서")
                         .version("v1"))
                 .servers(List.of(new Server()
                         .url(serverUrl)
