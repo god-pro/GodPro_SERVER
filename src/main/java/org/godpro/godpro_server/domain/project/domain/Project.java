@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.godpro.godpro_server.domain.application.domain.Application;
 import org.godpro.godpro_server.domain.user.domain.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -43,10 +44,10 @@ public class Project {
     private int design; //디자인
 
     @Column
-    private int how_many; //프로젝트 인원수
+    private int eta; //예상 개발 기간
 
     @Column
-    private int how_long; //예상 개발 기간
+    private LocalDateTime recruitmentEndDate; // 모집 마감 날짜
 
     @Column
     private boolean isRecruited;
@@ -55,7 +56,7 @@ public class Project {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "project",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Application> applications;
 
@@ -67,10 +68,11 @@ public class Project {
                    int front,
                    int pm,
                    int design,
-                   int how_many,
-                   int how_long,
+                   int eta,
                    boolean isRecruited,
-                   User creator) {
+                   LocalDateTime recruitmentEndDate,
+                   User creator
+    ) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.detailDescription = detailDescription;
@@ -78,9 +80,9 @@ public class Project {
         this.front = front;
         this.pm = pm;
         this.design = design;
-        this.how_many = how_many;
-        this.how_long = how_long;
+        this.eta = eta;
         this.isRecruited = isRecruited;
+        this.recruitmentEndDate = recruitmentEndDate;
         this.creator = creator;
     }
 
@@ -90,9 +92,8 @@ public class Project {
                               int back,
                               int front,
                               int pm,
-                              int design,
-                              int how_many,
-                              int how_long) {
+                              int design
+    ) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.detailDescription = detailDescription;
@@ -100,7 +101,9 @@ public class Project {
         this.front = front;
         this.pm = pm;
         this.design = design;
-        this.how_many = how_many;
-        this.how_long = how_long;
+    }
+
+    public void updateIsRecruited(boolean endRecruiting) {
+        this.isRecruited = endRecruiting;
     }
 }
