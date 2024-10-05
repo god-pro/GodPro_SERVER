@@ -8,6 +8,7 @@ import org.godpro.godpro_server.domain.project.application.ProjectQueryService;
 import org.godpro.godpro_server.domain.project.domain.Project;
 import org.godpro.godpro_server.domain.project.dto.request.CreateProjectRequestDto;
 import org.godpro.godpro_server.domain.project.dto.request.CreateProjectServiceRequestDto;
+import org.godpro.godpro_server.domain.user.domain.User;
 import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,24 +31,31 @@ public class ProjectController {
 
     @Operation(summary = "프로젝트 삭제 API")
     @DeleteMapping("/{projectId}")
-    public ApiResponse<String> deleteProject(@RequestHeader Long userId,
+    public ApiResponse<String> deleteProject(@RequestHeader("Authorization") String userId,
                                              @PathVariable("projectId") Long projectId) {
         return projectService.deleteProject(userId, projectId);
     }
 
     @Operation(summary = "프로젝트 모집 마감 API")
     @PostMapping("/{projectId}/close-recruitment")
-    public ApiResponse<Project> closeRecruitment(@RequestHeader Long userId,
+    public ApiResponse<String> closeRecruitment(@RequestHeader("Authorization") String userId,
                                                  @PathVariable("projectId") Long projectId) {
         return projectService.closeRecruitment(userId, projectId);
     }
 
     @Operation(summary = "프로젝트 생성 API")
     @PostMapping
-    public ApiResponse<Project> createProject(@RequestHeader Long userId,
+    public ApiResponse<String> createProject(@RequestHeader("Authorization") String userId,
                                               @RequestBody CreateProjectRequestDto dto) {
         return projectService.createProject(userId, dto.toServiceRequest());
     }
+
+
+//    @Operation(summary = "특정 프로젝트 파트별 지원자 조회")
+//    @GetMapping("/applicant/part")
+//    public ApiResponse<User> retrieveApplicantByPart(@PathVariable("projectId") Long projectId) {
+//        return projectService.retrieveApplicantByPart(projectId);
+//    }
 
     @Operation(summary = "프로젝트 수정 API")
     @PutMapping("/{projectId}")

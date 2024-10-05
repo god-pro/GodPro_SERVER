@@ -65,4 +65,8 @@ public class UserService {
         User user = optionalUser.get();
         return ApiResponse.ok("사용자 정보를 성공적으로 조회했습니다.", user);
     }
+
+    public Boolean isExisted(String kakaoId) {
+        return userRepository.existsByKakaoId(kakaoId);
+    }
 }

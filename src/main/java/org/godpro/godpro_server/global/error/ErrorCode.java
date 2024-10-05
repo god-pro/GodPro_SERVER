@@ -22,6 +22,7 @@ public enum ErrorCode {
     INVALID_USER_ID(HttpStatus.NOT_FOUND, "유효하지 않은 사용자 식별자입니다."),
 
     // Project
+    INVALID_PROJECT_ID(HttpStatus.NOT_FOUND, "유효하지 않은 프로젝트 식별자입니다."),
     PROJECT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 프로젝트입니다."),
     NOT_PROJECT_CREATOR_ERROR(HttpStatus.FORBIDDEN, "프로젝트 생성한 사람이 아닙니다."),
     CANNOT_UPDATE_PROJECT_WITH_APPLICANTS(HttpStatus.BAD_REQUEST, "지원자가 있는 프로젝트는 수정할 수 없습니다.");

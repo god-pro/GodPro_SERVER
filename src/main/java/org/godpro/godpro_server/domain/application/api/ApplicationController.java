@@ -18,7 +18,7 @@ public class ApplicationController {
 
     @Operation(summary = "프로젝트 지원 API")
     @PostMapping("/{projectId}/apply")
-    public ApiResponse<Application> applyToProject(@RequestHeader() Long userId,
+    public ApiResponse<String> applyToProject(@RequestHeader("Authorization") String userId,
                                                    @PathVariable("projectId") Long projectId,
                                                    @RequestBody @Valid ApplyRequestDto applyRequestDto) {
         return applicationService.applyToProject(userId, projectId, applyRequestDto);
