@@ -3,7 +3,9 @@ package org.godpro.godpro_server.domain.application.api;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.godpro.godpro_server.domain.application.application.ApplicationQueryService;
 import org.godpro.godpro_server.domain.application.application.ApplicationService;
+import org.godpro.godpro_server.domain.application.dao.ApplicationDetail;
 import org.godpro.godpro_server.domain.application.dto.request.ApplyRequestDto;
 import org.godpro.godpro_server.global.common.response.ApiResponse;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final ApplicationQueryService applicationQueryService;
 
     @Operation(summary = "프로젝트 지원 API")
     @PostMapping("/{projectId}/applies")
@@ -29,5 +32,13 @@ public class ApplicationController {
                                                  @PathVariable("projectId") Long projectId,
                                                  @PathVariable("applicationId") Long applicationId) {
         return applicationService.acceptApplication(userId, projectId, applicationId);
+    }
+
+    @Operation(summary = "프로젝트 지원자 단건 조회 API")
+    @GetMapping("/{projectId}/applications/{applicationId}")
+    public ApiResponse<ApplicationDetail> findApplicationDetail(@RequestHeader("Authorization") String userId,
+                                                                @PathVariable("projectId") Long projectId,
+                                                                @PathVariable("applicationId") Long applicationId) {
+        return applicationQueryService.findApplicationDetail(userId, projectId, applicationId);
     }
 }
