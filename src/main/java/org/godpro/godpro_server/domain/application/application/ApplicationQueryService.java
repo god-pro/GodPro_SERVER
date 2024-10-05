@@ -3,6 +3,7 @@ package org.godpro.godpro_server.domain.application.application;
 import lombok.RequiredArgsConstructor;
 import org.godpro.godpro_server.domain.application.dao.ApplicationDetail;
 import org.godpro.godpro_server.domain.application.dao.ApplicationRepository;
+import org.godpro.godpro_server.domain.application.dao.ProjectApplicantRetrieve;
 import org.godpro.godpro_server.domain.application.domain.Application;
 import org.godpro.godpro_server.domain.project.dao.ProjectRepository;
 import org.godpro.godpro_server.domain.project.domain.Project;
@@ -13,6 +14,7 @@ import org.godpro.godpro_server.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,5 +46,18 @@ public class ApplicationQueryService {
 
         ApplicationDetail applicationDetail = applicationRepository.findApplicationDetail(projectId, applicationId);
         return ApiResponse.ok("지원 정보를 성공적으로 조회하였습니다.", applicationDetail);
+    }
+
+    public ApiResponse<List<ProjectApplicantRetrieve>> findProjectApplicant(String userId, Long projectId) {
+        if (userService.isExisted(userId)) {
+            return ApiResponse.withError(ErrorCode.USER_NOT_FOUND);
+        }
+
+        if (!projectRepository.existsById(projectId)) {
+            return ApiResponse.withError(ErrorCode.PROJECT_NOT_FOUND);
+        }
+
+        List<ProjectApplicantRetrieve> applicants = applicationRepository.findApplicantsByProjectId(projectId);
+        return ApiResponse.ok("프로젝트 지원자 정보를 성공적으로 전체 조회하였습니다.", applicants);
     }
 }
